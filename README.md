@@ -1,5 +1,5 @@
 # Introduction
-This repository contains all the code used to calculate the network scores as seen in the paper (...). 
+This repository contains all the code used to calculate the network scores as seen in our forthcoming paper (details to be provided as soon as it is published). 
 
 # R version
 All code was written for R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out" on a x86_64-pc-linux-gnu (64-bit) environment. The code will probably work on other versions of R from at least R version 3.6.3 and on other platforms, but this is not guaranteed. 
@@ -63,7 +63,7 @@ Each disease-network file corresponds to one sample (cell line, patient sample, 
   - **RankChange**. This is an integer or numeric vector with the change in rank between normal and tumor tissue for each gene. 
   - **DiseaseModuleGene**. This is a character vector indicating whether each gene is part of the disease module ("Y") or not ("N"). 
   - **STRING_id**. This is a character vector with the corresponding STRING identifier for each gene. 
-- The $**Intensity** item is a data frame.
+- The $**Intensity** item is a data frame containing the _raw_ intensities of each measured gene. These intensities will come from the appropriate raw microarray or RNA-seq files. 
 
 We are aware that the **Intensity** data frame could probably be merged into the **Map** data frame, and the disease-network file could be reduced to simply a data frame instead of a list. This will be addressed in future updates. 
 
@@ -76,8 +76,32 @@ We are aware that the **Intensity** data frame could probably be merged into the
 > and `[DEG type]` is an arbitrary indicator of how the differentially expressed genes (DEGs) were calculated. For example, I might put `2SD` to indicate that the genes whose rank change was >= 2SD away from the mean rank change were chosen as DEGs.
 
 ## Reference PPI network
+The reference PPI network file should contain an R **list** with the following items:
+- The $**Map** item is a data frame of dimensions *n* × *m*, where *n* is the number of genes measured for the sample, and *m* >= 4, with at least the following four columns:
+  - **GeneSymbol**. This is a character vector with the HUGO gene symbol for each gene. 
+  - **STRING_id**. This is a character vector with the corresponding STRING identifier for each gene. 
+- The $**Network** item is an iGraph object containing the PPI network.
+- The $**Diameter** item is a numeric scalar consisting of the diameter of the $**Network** item.
+
 ## Drug-target data
-The drug-target data is an R **list** in which item is a data.frame. 
+The drug-target data is an R **list** in which each item corresponds to a single drug and is a data frame. The names of the items should match exactly the names as they appear in the pData $**Drugs** column. For example, if one of the treatments in the pData data frame is **oxaliplatin_fluorouracil**, there should be at least two items in the drug-target–data list, named **oxaliplatin** and **fluorouracil**, respectively. If, for example, you named the fluorouracil entry 5-fluorouracil, this would not work; the names much match up exactly. (Alternatively, you could change the pData entry to **oxaliplatin_5-fluorouracil**.)
+
+Each data frame should contain at least the following three columns, **Drug**, **Target**, and **Effect**, named as such.
+- The **Drug** column is a **character vector** containing the name of the drug. Because each item in the list corresponds to only one drug, every entry in this column should be the same. 
+- The **Target** column is a **character vector** containing the drug's targets. ***These should be HUGO gene names.***
+- The **Effect** column is a **numeric vector** the directional effect of the drug on the corresponding target. The values of these will be -1 (inhibition or downregulation), 0 (neutral or unknown), and +1 (activation or upregulation). 
+
+Below is a sample data frame:
+| Drug | Target | Effect |
+| ---         |     ---      |          --- |
+| sunitinib   | CSF1    | -1    |
+| sunitinib   | CSF1R       | -1     |
+| sunitinib  | FLT1     | -1    |
+| sunitinib     | FLT3       | -1      |
+| sunitinib  | FLT4     | -1    |
+| sunitinib    | KDR       | -1      |
+| sunitinib   | KIT     | -1    |
+| sunitinib     | RET      | -1      |
 
 # How to calculate network scores
 The basic function for calculating network scores will 
