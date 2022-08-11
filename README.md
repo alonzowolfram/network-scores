@@ -1,5 +1,30 @@
 # Introduction
+This repository contains all the code used to calculate the network scores as seen in the paper (...). 
+
+# R version
+All code was written for R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out" on a x86_64-pc-linux-gnu (64-bit) environment. The code will probably work on other versions of R from at least R version 3.6.3 and on other platforms, but this is not guaranteed. 
+
+# Required libraries
+You will need the following libraries:
+```R
+library(plyr)
+library(dplyr)
+library(data.table) # Faster and more memory-friendly version of data frames. 
+library(gtools) # For making permutations. 
+library(igraph) # Network visualization and calculation. 
+library(jubilee) # For the jubilee.mcsapply function.
+library(matrixcalc) # Hadamard product. 
+library(parallel)
+library(regexPipes)
+library(stringi)
+library(stringr)
+library(tibble)
+library(tidyr)
+library(miceadds) # For the source.all function. 
+```
+
 # How to calculate network scores.
+The basic function for calculating network scores will 
 ```R
 calcNetworkScores(i, 
                   pData = pData, 
