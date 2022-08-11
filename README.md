@@ -22,7 +22,10 @@ library(tibble)
 library(tidyr)
 library(miceadds) # For the source.all function. 
 ```
-
+# Required inputs
+To calculate network scores, you will need the following input files:
+- A pData file.
+- One or more 
 # How to calculate network scores.
 The basic function for calculating network scores will 
 ```R
