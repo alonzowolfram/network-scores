@@ -31,7 +31,7 @@ To calculate network scores, you will need the following input files (all .RDS f
 Further details are given in the following subsections.
 
 ## pData
-The pData is an R **data.frame** that lists all the samples × drug treatments that you want to have scored, and it MUST contain at least the following three columns: **Sample**, **Drugs**, and **Dataset**. 
+The pData file consists of an R **data.frame** that lists all the samples × drug treatments that you want to have scored, and it MUST contain at least the following three columns: **Sample**, **Drugs**, and **Dataset**. 
 Additional columns are allowed, and the order of the columns is not important, but at the bare minimum those three columns must be present and named as such. 
 Each row consists of one experimental observation: one sample (cell line, patient sample, etc.) treated with one or more drugs. 
 
@@ -40,18 +40,28 @@ Each row consists of one experimental observation: one sample (cell line, patien
 - The **Dataset** column is a **character vector** containing an arbitrary identifier of the data set the sample is a part of.
 
 Below is an example of a pData data frame:
-| Sample | Drugs | Dataset |
-| ---         |     ---      |          --- |
-| A549   | carboplatin_paclitaxel    | NCI-60    |
-| A549     | erlotinib       | NCI-60      |
-| A549   | oxaliplatin_doxorubicin     | NCI-60    |
-| UO-31     | imatinib       | NCI-60      |
-| UO-31   | arsenic trioxide_paclitaxel     | NCI-60    |
-| UO-31     | docetaxel       | NCI-60      |
-| TCGA-2G-AAF1   | bevacizumab     | TCGA    |
-| TCGA-2G-AAF1     | oxaliplatin_irinotecan      | TCGA      |
+| Sample | Drugs | Dataset | CellGrowthPercent |
+| ---         |     ---      |          --- |     ---      |
+| A549   | carboplatin_paclitaxel    | NCI-60    | 27   |  
+| A549     | erlotinib       | NCI-60      | 102   |
+| A549   | oxaliplatin_doxorubicin     | NCI-60    | 84    |
+| UO-31     | imatinib       | NCI-60      | -30   |
+| UO-31   | arsenic trioxide_paclitaxel     | NCI-60    | 50    |
+| UO-31     | docetaxel       | NCI-60      | 95   |
+| TCGA-2G-AAF1   | bevacizumab     | TCGA    | 43    |
+| TCGA-2G-AAF1     | oxaliplatin_irinotecan      | TCGA      | 22    |
 
-## Disease network
+## Disease network(s)
+Each disease-network file corresponds to one sample (cell line, patient sample, etc.) and contains differential gene expression (DGE) data and disease-module membership data for each gene (whether each gene is part of the sample's disease module). It consists of an R **list** that contains at least the following items that must be named as such: 1) **Map** and 2) **Intensity**. Additional items are allowed, but will not be used by the program. 
+
+- The $**Map** item is a data frame of dimensions *n* × *m*, where *n* is the number of genes measured for the sample, and *m* >= 4, with at least the following four columns:
+  - **GeneSymbol**. This is a character vector with the HUGO gene symbol for each gene. 
+  - **RankChange**. This is an integer or numeric vector with the change in rank between normal and tumor tissue for each gene. 
+  - **DiseaseModuleGene**. This is a character vector indicating whether each gene is part of the disease module ("Y") or not ("N"). 
+  - **STRING_id**. This is a character vector with the corresponding STRING identifier for each gene. 
+- The $**Intensity** item is a data frame.
+
+We are aware that the **Intensity** data frame could probably be merged into the **Map** data frame, and the disease-network file could be reduced to simply a data frame instead of a list. This will be addressed in future updates. 
 
 ## Reference PPI network
 ## Drug-target data
