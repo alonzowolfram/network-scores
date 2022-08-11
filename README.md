@@ -107,8 +107,8 @@ Below is a sample data frame:
 The basic function for calculating network scores is `calcNetworkScores()`, found in the file `calcNetworkScores.R`. Its usage is as follows, with explanation of the parameters after the code:
 ```R
 calcNetworkScores(
+                  i,
                   pData = pData,
-                  i,  
                   ref_network_list = ref_network_list, 
                   drug_target_data = drug_target_data, 
                   disease_network_folder = disease_network_folder, 
@@ -126,8 +126,8 @@ calcNetworkScores(
                   num_cores = num_cores
                   )
 ```
-- **pData**. This is the path to the pData file.
 - **i**. This is an integer telling `calcNetworkScores()` which row of the pData to calculate the network scores for. 
+- **pData**. This is the path to the pData file.
 - **drug_target_data**. This is the path to the drug-target–data file.
 - **disease_network_folder**. This is the path to the folder containing the disease-network file(s).
 - **results_dir**. This is the path to the folder in which the results files will be placed.
