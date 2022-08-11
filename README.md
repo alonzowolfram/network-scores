@@ -25,15 +25,37 @@ library(miceadds) # For the source.all function.
 # Required inputs
 To calculate network scores, you will need the following input files (all .RDS format):
 - A **pData** file.
-- One or more **disease-network** files. Each disease network file corresponds to one sample (cell line, patient sample, etc.) and contains the expression data for the sample.
+- One or more **disease-network** files. Each disease-network file corresponds to one sample (cell line, patient sample, etc.) and contains the expression data for the sample. ***The disease-network files have a special nomenclature that MUST be followed.***
 - A **reference protein-protein–interaction** (PPI) **network** file.
 - A **drug-target data** file.
 Further details are given in the following subsections.
 
 ## pData
+The pData is an R **data.frame** that MUST contain at least the following three columns: **Sample**, **Drugs**, and **Dataset**. Additional columns are allowed, and the order of the columns is not important, but at the bare minimum those three columns must be present and named as such. Each row consists of one experimental observation: one sample (cell line, patient sample, etc.) treated with one or more drugs. 
+
+-The **Sample** column is a **character vector** containing the identifier of the sample treated with the drugs. The identifier will be part of the disease-network file name; see the next subsection for how to name these files. 
+
+-The **Drugs** column is a **character vector** in which all the drugs used to treat the corresponding sample are listed in a single string, the individual drugs separated with an underscore (_). 
+
+-The **Dataset** column is a **character vector** containing an arbitrary identifier of the data set the sample is a part of. 
+
+Below is an example of a pData data frame:
+| Sample | Drugs | Dataset |
+| ---         |     ---      |          --- |
+| A549   | carboplatin_paclitaxel    | NCI-60    |
+| A549     | erlotinib       | NCI-60      |
+| A549   | oxaliplatin_doxorubicin     | NCI-60    |
+| UO-31     | imatinib       | NCI-60      |
+| UO-31   | arsenic trioxide_paclitaxel     | NCI-60    |
+| UO-31     | docetaxel       | NCI-60      |
+| TCGA-2G-AAF1   | bevacizumab     | TCGA    |
+| TCGA-2G-AAF1     | oxaliplatin_irinotecan      | TCGA      |
+
 ## Disease network
+
 ## Reference PPI network
 ## Drug-target data
+The drug-target data is an R **list** in which item is a data.frame. 
 
 # How to calculate network scores
 The basic function for calculating network scores will 
