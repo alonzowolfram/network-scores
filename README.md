@@ -23,10 +23,19 @@ library(tidyr)
 library(miceadds) # For the source.all function. 
 ```
 # Required inputs
-To calculate network scores, you will need the following input files:
-- A pData file.
-- One or more 
-# How to calculate network scores.
+To calculate network scores, you will need the following input files (all .RDS format):
+- A **pData** file.
+- One or more **disease-network** files. Each disease network file corresponds to one sample (cell line, patient sample, etc.) and contains the expression data for the sample.
+- A **reference protein-protein–interaction** (PPI) **network** file.
+- A **drug-target data** file.
+Further details are given in the following subsections.
+
+## pData
+## Disease network
+## Reference PPI network
+## Drug-target data
+
+# How to calculate network scores
 The basic function for calculating network scores will 
 ```R
 calcNetworkScores(i, 
