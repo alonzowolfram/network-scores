@@ -22,12 +22,14 @@ library(tibble)
 library(tidyr)
 library(miceadds) # For the source.all function. 
 ```
+
 # Required inputs
 To calculate network scores, you will need the following input files (all .RDS format):
 - A **pData** file.
 - One or more **disease-network** files. Each disease-network file corresponds to one sample (cell line, patient sample, etc.) and contains the expression data for the sample. ***The disease-network files have a special nomenclature that MUST be followed.***
 - A **reference protein-protein–interaction** (PPI) **network** file.
 - A **drug-target data** file.
+
 Further details are given in the following subsections.
 
 ## pData
@@ -52,6 +54,8 @@ Below is an example of a pData data frame:
 | TCGA-2G-AAF1     | oxaliplatin_irinotecan      | TCGA      | 22    |
 
 ## Disease network(s)
+***(Please make sure to read the note on file nomenclature at the end of this section!)***
+
 Each disease-network file corresponds to one sample (cell line, patient sample, etc.) and contains differential gene expression (DGE) data and disease-module membership data for each gene (whether each gene is part of the sample's disease module). It consists of an R **list** that contains at least the following items that must be named as such: 1) **Map** and 2) **Intensity**. Additional items are allowed, but will not be used by the program. 
 
 - The $**Map** item is a data frame of dimensions *n* × *m*, where *n* is the number of genes measured for the sample, and *m* >= 4, with at least the following four columns:
@@ -62,6 +66,14 @@ Each disease-network file corresponds to one sample (cell line, patient sample, 
 - The $**Intensity** item is a data frame.
 
 We are aware that the **Intensity** data frame could probably be merged into the **Map** data frame, and the disease-network file could be reduced to simply a data frame instead of a list. This will be addressed in future updates. 
+
+> ***Important note on nomenclature!*** The disease-network files MUST use the following format for the filename: 
+> 
+> `[sample name]_disease_network_[DEG type].rds`
+> 
+> where `[sample name]` matches exactly the appropriate value of the **Sample** column in the pData data frame
+> 
+> and `[DEG type]` is an arbitrary indicator of how the differentially expressed genes (DEGs) were calculated. For example, I might put `2SD` to indicate that the genes whose rank change was >= 2SD away from the mean rank change were chosen as DEGs.
 
 ## Reference PPI network
 ## Drug-target data
