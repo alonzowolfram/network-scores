@@ -31,7 +31,9 @@ To calculate network scores, you will need the following input files (all .RDS f
 Further details are given in the following subsections.
 
 ## pData
-The pData is an R **data.frame** that lists all the samples × drug treatments that you want to have scored, and it MUST contain at least the following three columns: **Sample**, **Drugs**, and **Dataset**. Additional columns are allowed, and the order of the columns is not important, but at the bare minimum those three columns must be present and named as such. Each row consists of one experimental observation: one sample (cell line, patient sample, etc.) treated with one or more drugs. 
+The pData is an R **data.frame** that lists all the samples × drug treatments that you want to have scored, and it MUST contain at least the following three columns: **Sample**, **Drugs**, and **Dataset**. 
+Additional columns are allowed, and the order of the columns is not important, but at the bare minimum those three columns must be present and named as such. 
+Each row consists of one experimental observation: one sample (cell line, patient sample, etc.) treated with one or more drugs. 
 
 - The **Sample** column is a **character vector** containing the identifier of the sample treated with the drugs. The identifier will be part of the disease-network file name; see the next subsection for how to name these files.
 - The **Drugs** column is a **character vector** in which all the drugs used to treat the corresponding sample are listed in a single string, the individual drugs separated with an underscore (_).
